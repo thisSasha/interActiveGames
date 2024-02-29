@@ -1,0 +1,57 @@
+.form {
+    min-height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form input, .form select {
+    width: 40%;
+    height: 5%;
+    text-align: center;
+    margin: 0 0 24% 0;
+}
+
+.form label {
+    color: white;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.form__addit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form__addit input {
+    height: 5vh;
+}
+
+select *, select {
+    color: black;
+}
+
+
+
+.form__addit h2 {
+    align-self: center;
+    clear: both;
+    display: block;
+    justify-self: center;
+}
+
+@media (max-width: 768px) {
+    .form {
+        width: 100vw;
+    }
+    .form input, .form select {
+        width: 80%;
+    }
+}
+

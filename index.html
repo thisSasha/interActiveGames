@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Kode+Mono:wght@400..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выберите режим игры</title>
+</head>
+
+<body>
+    <div class="form">
+        <label for="difficulty">Противник</label>
+        <select name="difficulty" required id="difficulty">
+            <option value="easy">Отличник</option>
+            <option value="normal">Олимпиадник</option>
+            <option value="hard">Учитель</option>
+        </select>
+        <label for="name">Как вас зовут?</label>
+        <input required type="text" autocomplete="name" value="Guest" id="name">
+        <label for="divide">На какое число должно/не должно делиться?</label>
+        <input required type="number" id="divide" value="9" min="2" max="9">
+        <div class="form__addit">
+            <h2>Дополнительные настройки</h2>
+            <label for="repeat">Повтор цифр</label>
+            <input type="checkbox" name="repeat" id="repeat">
+            <label for="freeOrder">Цифры в свободном порядке</label>
+            <input type="checkbox" name="freeOrder" id="freeOrder">
+        </div>
+        <button>Выбрать</button>
+        <script src="./js/startPage.js"></script>
+    </div>
+</body>
+
+</html>
