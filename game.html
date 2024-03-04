@@ -18,12 +18,21 @@
     <ul class="nav">
         <li>thisDevSasha</li>
         <li>Name</li>
-        <li><button><a href="/index.html">Назад</a></button></li>
+        <li><a href="/index.html">Назад</a></li>
     </ul>
     <div class="game">
-        <div class="board"></div>
+        <div class="board">
+            <p class="1motion">0</p>
+            <p class="2motion">0</p>
+            <p class="3motion">0</p>
+            <p class="4motion">0</p>
+            <p class="5motion">0</p>
+            <p class="6motion">0</p>
+        </div>
         <img src="./img/hard.png" alt="Вы" class="enemy">
+        <p class="sopernik">Соперник</p>
         <img src="./img/you.png" alt="Вы" class="you">
+        <p class="yyou">Ты</p>
     </div>
     <div class="keyboard">
         <div class="number1">1</div>
@@ -36,7 +45,7 @@
         <div class="number8">8</div>
         <div class="number9">9</div>
     </div>
-    <script src="./js/gameScript.js"></script>
+    <script src="./js/gameScript.js" type="module"></script>
 </body>
 
 </html>

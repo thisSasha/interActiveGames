@@ -24,6 +24,33 @@
 }
 
 
+.board p {
+    color: black;
+    border: 1px solid black;
+    height: min-content;
+    padding: 8px 12px;
+}
+
+p.sopernik {
+    position: absolute;
+    bottom: 36%;
+    left: 4%;
+}
+
+p.yyou._active, p.sopernik._active {
+    transition: 500ms;
+    font-size: 2.5em;
+    font-weight: 410;
+    color: rgb(115, 202, 232);
+}
+
+p.yyou {
+    position: absolute;
+    bottom: 36%;
+    right: 12%;
+}
+
+
 
 
 
@@ -53,16 +80,23 @@
     transform: rotate(25deg);
 }
 
-.keyboard div:hover {
-    background: rgba(0, 0, 0, 0.093);
+.keyboard div.disabled {
+    color: red;
+    pointer-events: none;
+    background-color: rgba(118, 0, 0, 0.444);
+    opacity: 0.7;
 }
 
 
 
 .board {
+    box-sizing: border-box;
     margin: 12% auto 0 auto;
     width: 88%;
+    display: flex;
+    justify-content: space-between;
     height: 30%;
+    padding: 48px;
     background-color: azure;
 }
 
@@ -74,10 +108,11 @@
 }
 
 .game img.enemy {
-    width: 56vw;
+    height: 56vw;
+    margin: 0;
     position: absolute;
     top: 24%;
-    left: -15%;
+    left: 0%;
 }
 
 
