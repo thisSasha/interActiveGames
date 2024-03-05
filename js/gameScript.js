@@ -1,12 +1,8 @@
 function findClosestMultiple(num, divisor) {
     const remainder = num % divisor;
-    if (remainder === 0) {
-        return num;
-    } else {
-        const nextMultiple = num + divisor - remainder;
-        const prevMultiple = num - remainder;
-        return Math.abs(num - prevMultiple) < Math.abs(nextMultiple - num) ? prevMultiple : nextMultiple;
-    };
+    const nextMultiple = num + divisor - remainder;
+    return nextMultiple;
+
 };
 
 
@@ -43,7 +39,24 @@ for (let i = 0; i < keyboard.length; i++) {
 
 
 function gameEnd() {
-
+    for (let i = 0; i < keyboard.length; i++) {
+        const el = keyboard[i];
+        document.getElementsByClassName(el)[0].classList.add('disabled');
+    };
+    setTimeout(() => {
+        let sum = 0;
+        for (let i = 0; i < motionsPast.length; i++) {
+            sum += Number(motionsPast[i]);
+        };
+        if (sum%divideNum==0) {
+            alert('Победа!!!!')
+        } else {
+            alert('Вы проиграли😢')
+        };
+        setTimeout(() => {
+            location.href = './';
+        }, 1500);
+    }, 2500);
 };
 
 function changeMotionPlayer() {
@@ -84,37 +97,51 @@ function putMotion(value) {
 };
 
 function botMotion() {
+    let sum = 0;
+    for (let i = 0; i < motionsPast.length; i++) {
+        sum += Number(motionsPast[i]);
+    };
     if (divideNum == 9) {
         if (motionNow < 5) {
             setTimeout(() => {
                 putMotion(Math.round(Math.random() * 8 + 1));
             }, 1500);
         } else if (motionNow == 5) {
-            let sum = 0;
-            for (let i = 0; i < motionsPast.length; i++) {
-                sum += Number(motionsPast[i]);
-            };
             let delitsa = findClosestMultiple(sum, 9);
             let variants = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-            console.log(sum);
             for (let i = 0; i < variants.length; i++) {
-                let iii = 0;
                 const variant = variants[i];
-                motionsPast.push(variant);
                 for (let i = 0; i < motionsPast.length; i++) {
                     const was = Number(motionsPast[i]);
                     if (delitsa - was == sum + variant) {
+                        console.log(variant, motionsPast);
+                        motionsPast.pop();
                         putMotion(variant);
-                        iii = 1;
-                        break;
+                        return;
                     };
                 };
-                if (iii) break;
-                motionsPast.shift(variant);
             };
         } else {
-
-        }
+            let variants = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            for (let i = 0; i < variants.length; i++) {
+                const el = variants[i];
+                if (((el + sum) % 9) != 0) {
+                    let doIt = true;
+                    for (let i = 0; i < motionsPast.length; i++) {
+                        const elem = Number(motionsPast[i]);
+                        console.log(elem, el);
+                        if (el==elem) {
+                            doIt = false;
+                            break;
+                        };
+                    };
+                    if (doIt) {
+                        putMotion(el);
+                        return
+                    };
+                };
+            };
+        };
     };
 };
 
