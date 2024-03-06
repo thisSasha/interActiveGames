@@ -16,5 +16,5 @@ document.querySelector('button').onclick = function () {
         };
     };
     alert('На данный момент сайт в BETA-версии. Работает только деление на 9')
-    if (abcd) window.location.replace(/*'https://thissasha.github.io/interActiveGames/post.html'*/'/game.html');
+    if (abcd) window.location.replace('https://thissasha.github.io/interActiveGames/game.html');
 };
