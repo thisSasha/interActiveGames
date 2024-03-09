@@ -48,7 +48,7 @@ function gameEnd() {
         for (let i = 0; i < motionsPast.length; i++) {
             sum += Number(motionsPast[i]);
         };
-        if (sum%divideNum==0) {
+        if (sum % divideNum == 0) {
             alert('Победа!!!!')
         } else {
             alert('Вы проиграли😢')
@@ -96,6 +96,8 @@ function putMotion(value) {
     }, 200);
 };
 
+document.querySelector('#name').innerHTML = localStorage.getItem('name');
+
 function botMotion() {
     let sum = 0;
     for (let i = 0; i < motionsPast.length; i++) {
@@ -114,8 +116,9 @@ function botMotion() {
                 for (let i = 0; i < motionsPast.length; i++) {
                     const was = Number(motionsPast[i]);
                     if (delitsa - was == sum + variant) {
-                        console.log(variant, motionsPast);
-                        motionsPast.pop();
+                        putMotion(variant);
+                        return; 
+                    } else if (delitsa - variant == sum + variant) {
                         putMotion(variant);
                         return;
                     };
@@ -130,7 +133,7 @@ function botMotion() {
                     for (let i = 0; i < motionsPast.length; i++) {
                         const elem = Number(motionsPast[i]);
                         console.log(elem, el);
-                        if (el==elem) {
+                        if (el == elem) {
                             doIt = false;
                             break;
                         };
