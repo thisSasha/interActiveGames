@@ -9,7 +9,7 @@ function findClosestMultiple(num, divisor) {
 
 
 
-
+``
 
 let motionNow = 1;
 let playerNow = Math.round(Math.random() + 1);
@@ -150,3 +150,12 @@ function botMotion() {
 
 
 changeMotionPlayer();
+
+function findClosestMultiple(num, divisor) {
+    const remainder = num % divisor;
+    const nextMultiple = num + divisor - remainder;
+    return nextMultiple;
+
+};
+
+
