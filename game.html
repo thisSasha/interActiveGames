@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -16,11 +15,11 @@
 </head>
 
 <body>
-    <div class="nav">
-        <a href="https://thissasha.github.io/myPortfolio">thisDevSasha</a>
-        <p id="name">Name</p>
-        <a href="/index.html">Назад</a>
-    </div>
+    <ul class="nav">
+        <li>thisDevSasha</li>
+        <li>Name</li>
+        <li><a data-href="/index.html">Назад</a></li>
+    </ul>
     <div class="game">
         <div class="board">
             <p class="1motion">0</p>
@@ -46,6 +45,10 @@
         <div class="number8">8</div>
         <div class="number9">9</div>
     </div>
+    <div class="custom-alert" id="customAlert">
+        <p id="alert__text">This is a custom alert message!</p>
+        <button onclick="hideAlert()">OK</button>
+      </div>
     <script src="./js/gameScript.js" type="module"></script>
 </body>
 

@@ -1,4 +1,3 @@
-
 .nav {
     box-sizing: border-box;
     display: flex;
@@ -95,7 +94,6 @@ p.yyou {
     margin: 12% auto 0 auto;
     width: 88%;
     display: flex;
-    max-width: 500px;
     justify-content: space-between;
     height: 30%;
     padding: 48px;
