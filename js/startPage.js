@@ -14,23 +14,25 @@ document.querySelector('button').onclick = function () {
             };
         } else {
             abcd = false;
-            alertCSS('Вы не все заполнили правильно. Примечание: число должно быть от 2 до 9');
+            alertCSS('Вы не все заполнили правильно. Примечание: число должно быть от 2 до 9', 2, true);
         };
     };
-    alertCSS('На данный момент сайт в BETA-версии. Работает только деление на 9', () => { if (abcd) window.location.replace(hosting + '/game.html'); });
+    alertCSS('На данный момент сайт в BETA-версии. Работает только деление на 2, 3, 5, 9', () => { if (abcd) window.location.replace(hosting + '/game.html'); else { alertCSS('Вы не все заполнили правильно. Примечание: число должно быть от 2 до 9', true); } });
 };
 
 let callbackFunction;
 
-function alertCSS(text, callback) {
-    document.getElementById("customAlert").style.display = "block";
+function alertCSS(text, callback, error = false) {
+    document.getElementById("customAlert").classList.add('custom-alert_active');
     document.getElementById("alert__text").innerHTML = text;
     callbackFunction = callback;
 };
 
 function hideAlert() {
-    document.getElementById("customAlert").style.display = "none";
+    document.getElementById("customAlert").classList.remove('custom-alert_active');
     if (typeof callbackFunction === 'function') {
-        callbackFunction();
+        setTimeout(() => {
+            callbackFunction();
+        }, 400);
     };
 };

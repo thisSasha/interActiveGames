@@ -8,11 +8,11 @@
 }
 
 .custom-alert {
-    display: none;
+    visibility: hidden;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -100vh);
     padding: 20px;
     width: 300px;
     /* Установим ширину алерта */
@@ -21,8 +21,15 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     /* Adding box shadow */
     text-align: center;
-    transition: all 0.3s;
+    transition: all 0.7s;
+    transition-timing-function: cubic-bezier(0.8, -0.02, 0, 1.63);
     /* Добавим плавный переход для всех свойств */
+}
+
+.custom-alert_active {
+    visibility: visible;
+    transform: translate(-50%, -50%);
+    
 }
 
 .custom-alert p {

@@ -25,7 +25,7 @@
         <label for="name">Как вас зовут?</label>
         <input required type="text" autocomplete="name" value="Guest" id="name">
         <label for="divide">На какое число должно/не должно делиться?</label>
-        <input required type="number" id="divide" value="9" min="2" max="9">
+        <input oninput="document.getElementById('num1').innerHTML = this.value; document.getElementById('num2').innerHTML = this.value" required type="number" id="divide" value="9" min="2" max="9">
         <div class="form__addit">
             <h2>Дополнительные настройки</h2>
             <label for="repeat">Повтор цифр</label>
@@ -33,6 +33,10 @@
             <label for="freeOrder">Цифры в свободном порядке</label>
             <input type="checkbox" disabled name="freeOrder" id="freeOrder">
         </div>
+        <p>
+            Ваша цель, чтобы ответ делился на <span id="num1">это число</span> <br>   
+            Цель бота, чтобы ответ <b>не</b> делился на <span id="num2">это число</span>
+        </p>
         <button>Выбрать</button>
         <div class="custom-alert" id="customAlert">
             <p id="alert__text">This is a custom alert message!</p>

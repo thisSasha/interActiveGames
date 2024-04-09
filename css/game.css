@@ -124,5 +124,6 @@ p.yyou {
 
 ul li {
     text-decoration: none;
+    background: transparent;
     list-style-type: none;
 }

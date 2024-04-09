@@ -3,7 +3,7 @@ function findClosestMultiple(num, divisor) {
     const nextMultiple = num + divisor - remainder;
     return nextMultiple;
 };
-function findUniqueElements(arr1, arr2) {
+function findUniqueElements(arr1, arr2 = motionsPast) {
     let uniqueArr1 = arr1.filter(item => !arr2.includes(item));
     let uniqueArr2 = arr2.filter(item => !arr1.includes(item));
     return uniqueArr1.concat(uniqueArr2);
@@ -11,10 +11,11 @@ function findUniqueElements(arr1, arr2) {
 let hosting = 'http://127.0.0.1:5500';
 
 document.querySelectorAll('a').forEach(el => {
-    console.log(el.dataset.href)
     el.href = hosting + el.dataset.href;
 });
 
+document.querySelector('#name').innerHTML = localStorage.getItem('name')
+document.querySelector('#divideNum').innerHTML = 'Деление на ' + localStorage.getItem('divide');
 
 
 
@@ -44,7 +45,7 @@ for (let i = 0; i < keyboard.length; i++) {
     const el = keyboard[i];
     document.getElementsByClassName(el)[0].onclick = function () {
         if (playerNow == 2) {
-            putMotion(el.split('r')[1]);
+            putMotion(Number(el.split('r')[1]));
         };
     };
 };
@@ -61,13 +62,13 @@ function gameEnd() {
             sum += Number(motionsPast[i]);
         };
         if (sum % divideNum == 0) s = 0;
-        let alertTText = sum % divideNum == 0 ? 'Вы победили!!' : 'Вы проиграли :('
+        let alertTText = motionsPast.join('') % divideNum == 0 ? 'Вы победили!!' : 'Вы проиграли :('
         alertCSS(alertTText, () => {
             setTimeout(() => {
                 location.href = hosting;
-            }, 1500);
+            }, 1000);
         });
-    }, 2500);
+    }, 1000);
 };
 
 function changeMotionPlayer() {
@@ -115,19 +116,14 @@ function botMotion() {
     for (let i = 0; i < motionsPast.length; i++) {
         sum += Number(motionsPast[i]);
     };
-    if (divideNum == 9) {
+    if (divideNum == 9 || divideNum == 3) {
         if (motionNow < 5) {
             setTimeout(() => {
                 putMotion(Math.round(Math.random() * 8 + 1));
             }, 500);
         } else if (motionNow == 5) {
-            let vars = findUniqueElements([1, 2, 3, 4, 5, 6, 7, 8, 9], motionsPast);
-            let variants = [];
+            let variants = findUniqueElements([1, 2, 3, 4, 5, 6, 7, 8, 9], motionsPast);
             let delitsaa = [(sum + divideNum - (sum % divideNum)), (sum + divideNum + divideNum - (sum % (divideNum)))];
-            vars.forEach((el) => {
-                variants.push(Number(el));
-            });
-            console.log(sum);
             for (let ii = 0; ii < delitsaa.length; ii++) {
                 const delitsa = delitsaa[ii];
                 for (let i = 0; i < variants.length; i++) {
@@ -136,7 +132,6 @@ function botMotion() {
                     motionsPast.push(el);
                     for (let iii = 0; iii < motionsPast.length; iii++) {
                         const elem = Number(motionsPast[iii]);
-                        console.log(elem, el, sum);
                         if ((sum + el) == delitsa - elem) {
                             doIt = true;
                             break;
@@ -144,24 +139,58 @@ function botMotion() {
                     };
                     motionsPast.pop();
                     if (doIt) {
-                        putMotion(el);
+                        setTimeout(() => {
+                            putMotion(el);
+                        }, 500);
                         return;
                     };
                 };
             };
-        } else {
-            let vars = findUniqueElements([1, 2, 3, 4, 5, 6, 7, 8, 9], motionsPast);
-            let variants;
-            vars.forEach((el) => {
-                variants.push(Number(el))
-            });
+        } else if (motionNow == 6) {
+            let variants = findUniqueElements([1, 2, 3, 4, 5, 6, 7, 8, 9], motionsPast);
             for (let i = 0; i < variants.length; i++) {
                 const el = variants[i];
-                for (let i = 0; i < motionsPast.length; i++) {
-                    const elem = motionsPast[i];
-                    if ((sum + el) % 9 != 0) {};
+
+                if ((el + sum) % divideNum != 0) {
+                    setTimeout(() => {
+                        putMotion(el);
+                    }, 500);
+                    return;
                 };
             };
+        };
+    } else if (divideNum == 2) {
+        if (motionNow < 6) {
+            let needVariants = findUniqueElements([2, 4, 6, 8]);
+            let canVariants = findUniqueElements([1, 3, 5, 7, 9]);
+            setTimeout(() => {
+                if (needVariants.length != 0) {
+                    putMotion(needVariants[Math.round(Math.random() * (needVariants.length - 1))]);
+                } else {
+                    putMotion(canVariants[Math.round(Math.random() * (canVariants.length - 1))]);
+                };
+            }, 1500);
+        } else if (motionNow == 6) {
+            let varrs = findUniqueElements([1, 2, 3, 4, 5, 6, 7, 8, 9], motionsPast);
+            let variants = [];
+            varrs.forEach(el => {
+                if (el % divideNum != 0) {
+                    variants.push(el);
+                };
+            });
+            console.log(Math.round(Math.random() * (variants.length - 1) + 1));
+            console.log(variants);
+            putMotion(variants[Math.round(Math.random() * (variants.length - 1))]);
+        };
+    } else if (divideNum == 5) {
+        if (motionNow < 6) {
+            if (motionsPast.includes(5)) {
+                putMotion(Math.round(Math.random() * 8 + 1));
+            } else {
+                putMotion(5);
+            };
+        } if (motionNow == 6) {
+            putMotion(Math.round(Math.random() * 8 + 1));
         };
     };
 };
@@ -169,17 +198,20 @@ function botMotion() {
 let callbackFunction;
 
 function alertCSS(text, callback) {
-    document.getElementById("customAlert").style.display = "block";
+    document.getElementById("customAlert").classList.add('custom-alert_active');
     document.getElementById("alert__text").innerHTML = text;
     callbackFunction = callback;
 };
 
 function hideAlert() {
-    document.getElementById("customAlert").style.display = "none";
+    document.getElementById("customAlert").classList.remove('custom-alert_active');
     if (typeof callbackFunction === 'function') {
-        callbackFunction();
+        setTimeout(() => {
+            callbackFunction();
+        }, 400);
     };
 };
+
 
 
 changeMotionPlayer();
