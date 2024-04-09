@@ -1,5 +1,5 @@
-let hosting = 'http://127.0.0.1:5500';
-
+let hosting = location.href.split('/index.html')[0];
+console.log(hosting);
 document.querySelector('button').onclick = function () {
     let components = ['difficulty', 'name', 'divide', 'repeat', 'freeOrder'];
     components = ['name', 'divide']

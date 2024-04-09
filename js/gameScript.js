@@ -8,8 +8,8 @@ function findUniqueElements(arr1, arr2 = motionsPast) {
     let uniqueArr2 = arr2.filter(item => !arr1.includes(item));
     return uniqueArr1.concat(uniqueArr2);
 };
-let hosting = 'http://127.0.0.1:5500';
-
+let hosting = location.href.split('/game.html')[0];
+console.log(hosting);
 document.querySelectorAll('a').forEach(el => {
     el.href = hosting + el.dataset.href;
 });
