@@ -8,11 +8,47 @@ function findUniqueElements(arr1, arr2 = motionsPast) {
     let uniqueArr2 = arr2.filter(item => !arr1.includes(item));
     return uniqueArr1.concat(uniqueArr2);
 };
+function findMatchingElements(arr1, arr2) {
+    let matchingElements = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr2.includes(arr1[i])) {
+            matchingElements.push(arr1[i]);
+        };
+    };
+
+    return matchingElements;
+};
+
 let hosting = location.href.split('/game.html')[0];
-console.log(hosting);
 document.querySelectorAll('a').forEach(el => {
     el.href = hosting + el.dataset.href;
 });
+
+function genNum(digits, n, b, allowRepeats = true) {
+    let results = [];
+
+    function backtrack(current, index, used) {
+        if (current.length === n) {
+            if (parseInt(current) % b === 0) {
+                results.push(parseInt(current));
+            };
+            return;
+        };
+
+        for (let i = 0; i < digits.length; i++) {
+            if (!used[i] || allowRepeats) {
+                used[i] = true;
+                backtrack(current + digits[i], i, used);
+                used[i] = false;
+            };
+        };
+    };
+
+    backtrack('', 0, {});
+    return results;
+};
+
 
 document.querySelector('#name').innerHTML = localStorage.getItem('name')
 document.querySelector('#divideNum').innerHTML = 'Деление на ' + localStorage.getItem('divide');
@@ -22,6 +58,7 @@ document.querySelector('#divideNum').innerHTML = 'Деление на ' + localS
 
 
 
+document.getElementsByClassName('enemy')[0].src = hosting + '/img/' + localStorage.getItem('difficulty') + '.png';
 
 
 let motionNow = 1;
@@ -33,7 +70,6 @@ let print = [];
 for (let i = 1; i < 7; i++) {
     print.push(i + 'motion');
 };
-
 
 
 
@@ -101,14 +137,17 @@ function putMotion(value) {
     if (!doIt) {
         botMotion();
         return;
+    } else {
+        setTimeout(() => {
+            motionNow++;
+            document.getElementsByClassName(print[motionNow - 2])[0].innerHTML = value;
+            if (!localStorage.getItem('repeat')){
+                motionsPast.push(value);
+                document.getElementsByClassName(keyboard[value - 1])[0].classList.add('disabled');
+            };
+            changeMotionPlayer();
+        }, 200);
     };
-    setTimeout(() => {
-        motionNow++;
-        motionsPast.push(value);
-        document.getElementsByClassName(print[motionNow - 2])[0].innerHTML = value;
-        document.getElementsByClassName(keyboard[value - 1])[0].classList.add('disabled');
-        changeMotionPlayer();
-    }, 200);
 };
 
 function botMotion() {
@@ -116,7 +155,27 @@ function botMotion() {
     for (let i = 0; i < motionsPast.length; i++) {
         sum += Number(motionsPast[i]);
     };
-    if (divideNum == 9 || divideNum == 3) {
+    let diff = localStorage.getItem('difficulty');
+    if (diff = 'easy') {
+        let nnnum = Math.round(Math.random() * 27 + 1);
+        if (nnnum == 30) {
+            putMotion(Math.round(Math.random() * 8 + 1));
+            return;
+        };
+    } else if (diff = 'normal') {
+        let nnnum = Math.round(Math.random() * 57 + 1);
+        if (nnnum == 60) {
+            putMotion(Math.round(Math.random() * 8 + 1));
+            return
+        };
+    } else if (diff = 'hard') {
+        let nnnum = Math.round(Math.random() * 57 + 1);
+        if (nnnum == 1000) {
+            putMotion(Math.round(Math.random() * 8 + 1));
+            return
+        };
+    };;
+    if (divideNum == 9 || divideNum == 3 || divideNum == 6) {
         if (motionNow < 5) {
             setTimeout(() => {
                 putMotion(Math.round(Math.random() * 8 + 1));
@@ -178,8 +237,6 @@ function botMotion() {
                     variants.push(el);
                 };
             });
-            console.log(Math.round(Math.random() * (variants.length - 1) + 1));
-            console.log(variants);
             putMotion(variants[Math.round(Math.random() * (variants.length - 1))]);
         };
     } else if (divideNum == 5) {
@@ -192,6 +249,64 @@ function botMotion() {
         } if (motionNow == 6) {
             putMotion(Math.round(Math.random() * 8 + 1));
         };
+    } else if (divideNum == 4) {
+        if (motionNow < 5) {
+            putMotion(Math.round(Math.random() * 8 + 1));
+            return; 
+        } if (motionNow == 5) {
+            console.log(playerNow);
+            let variants = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            let secondNum = findMatchingElements([2, 4, 6, 8], motionsPast);
+            console.log(motionsPast);
+            let canPut = findUniqueElements(variants, motionsPast);
+            for (let i = 0; i < canPut.length; i++) {
+                const elem = canPut[i];
+                secondNum.push(elem);
+                for (let i = 0; i < secondNum.length; i++) {
+                    const el = secondNum[i];
+                    if (Number(elem.toString() + el.toString()) % divideNum == 0) {
+                        putMotion(elem);
+                        console.log(elem);
+                        secondNum.pop();
+                        return;
+                    };
+                };
+                secondNum.pop();
+            };
+        } else if (motionNow == 6) {
+            let variants = findUniqueElements([1, 2, 3, 4, 5, 6, 7, 8, 9], motionsPast);
+            variants.forEach(el => {
+                if ((Number(motionsPast.join('')) + el) % divideNum != 0) {
+                    putMotion(el);
+                    return;
+                };
+            });
+        };
+    } else if (divideNum == 7) {
+        if (motionNow < 5) {
+            putMotion(Math.round(Math.random() * 8 + 1));
+            return;
+        } else if (motionNow == 5) {
+            let secondNum = findMatchingElements([1, 2, 3, 4, 5, 6, 7, 8, 9], motionsPast);
+            let canPut = findUniqueElements([1, 2, 3, 4, 5, 6, 7, 8, 9], motionsPast);
+            for (let i = 0; i < canPut.length; i++) {
+                const elem = canPut[i];
+                secondNum.push(elem);
+                for (let i = 0; i < secondNum.length; i++) {
+                    const el = secondNum[i];
+                    console.log(((Number(motionsPast.join('')) + elem) - (2 * el)) / divideNum);
+                    console.log(Number(motionsPast.join('')) + elem - (2 * el) / divideNum);
+                    if ((Number(motionsPast.join('')) + elem) - (2 * el) % divideNum == 0) {
+                        putMotion(elem);
+                        return;
+                    };
+                };
+                secondNum.pop();
+            };
+        };
+    } else {
+        putMotion(Math.round(Math.random() * 8 + 1));
+        return;
     };
 };
 
@@ -212,6 +327,14 @@ function hideAlert() {
     };
 };
 
+
+document.onkeyup = function (e) {
+    if (Number(e.key)) {
+        if (playerNow == 2 && !(motionsPast.includes(Number(e.key)))) {
+            putMotion(Number(e.key));
+        };
+    };
+};
 
 
 changeMotionPlayer();

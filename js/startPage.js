@@ -1,8 +1,20 @@
 let hosting = location.href.split('/index.html')[0];
 console.log(hosting);
+let components = ['difficulty', 'name', 'divide', 'repeat', 'freeOrder'];
+components = ['name', 'divide', 'difficulty', 'repeat']
+for (let i = 0; i < components.length; i++) {
+    const el = components[i];
+    if (localStorage.getItem(el)) {
+        if (localStorage.getItem(el) == true || localStorage.getItem(el) == false) {
+            document.getElementById(el).checked = localStorage.getItem(el);
+        } else {
+            document.getElementById(el).value = localStorage.getItem(el);
+        };
+    };
+};
 document.querySelector('button').onclick = function () {
     let components = ['difficulty', 'name', 'divide', 'repeat', 'freeOrder'];
-    components = ['name', 'divide']
+    components = ['name', 'divide', 'difficulty']
     let abcd = true;
     for (let i = 0; i < components.length; i++) {
         const el = components[i];
@@ -17,7 +29,7 @@ document.querySelector('button').onclick = function () {
             alertCSS('Вы не все заполнили правильно. Примечание: число должно быть от 2 до 9', 2, true);
         };
     };
-    alertCSS('На данный момент сайт в BETA-версии. Работает только деление на 2, 3, 5, 9', () => { if (abcd) window.location.replace(hosting + '/game.html'); else { alertCSS('Вы не все заполнили правильно. Примечание: число должно быть от 2 до 9', true); } });
+    alertCSS('Работает только деление на 2 - 6, 9. Деление на 4 в beta версии', () => { if (abcd) window.location.replace(hosting + '/game.html'); else { alertCSS('Вы не все заполнили правильно. Примечание: число должно быть от 2 до 9', true); } });
 };
 
 let callbackFunction;
